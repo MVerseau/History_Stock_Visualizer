@@ -16,6 +16,7 @@ def main():
     # Add moving average to the data
     stock_data = dd.add_moving_average(stock_data)
 
+    # Calculate and display average closing price per period
     dd.calculate_and_display_average_price(stock_data)
 
     # Plot the data
