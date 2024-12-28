@@ -9,6 +9,7 @@ def main():
 
     ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc):»")
     period = input("Введите период для данных (например, '1mo' для одного месяца): ")
+    fluctuation=float(input('Введите процент изменения цены для определения высокой волатильности: '))
 
     # Fetch stock data
     stock_data = dd.fetch_stock_data(ticker, period)
@@ -18,6 +19,9 @@ def main():
 
     # Calculate and display average closing price per period
     dd.calculate_and_display_average_price(stock_data)
+
+    # Detecting and alerting high fluctuation being more than number of per cent set by the user (10 % by default) price change
+    dd.notify_if_strong_fluctuations(stock_data, fluctuation)
 
     # Plot the data
     dplt.create_and_save_plot(stock_data, ticker, period)
