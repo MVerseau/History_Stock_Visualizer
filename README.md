@@ -25,7 +25,7 @@
 
 ***Пример работы в консоли***
 
-![image](https://github.com/user-attachments/assets/fd2918b0-3aa5-49de-a715-05c9cdfafc68)
+![image](https://github.com/MVerseau/History_Stock_Visualizer/blob/571b67d14979d8aa149fe7963fe4e3adccc36583/History_stock_visualizer_concole.png)
 
 
 ***Пример визуализации***
