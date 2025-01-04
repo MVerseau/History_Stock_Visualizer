@@ -35,6 +35,5 @@ def main():
     # Plot the data
     dplt.create_and_save_plot(stock_data, ticker, period)
 
-
 if __name__ == "__main__":
     main()
