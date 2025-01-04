@@ -30,6 +30,6 @@
 
 ***Пример визуализации***
 
-На графике отражено изменение цены закрытия и средней цены на акции Apple Inc (тикер AAPL) за период с 25.11.2024 по 25.12.2024 (т.е. 1 месяц - 1mo). ![AAPL_1mo_stock_price_chart](https://github.com/user-attachments/assets/29b9c792-d6e3-4ce3-a976-275027d6e231)
+На графике отражено изменение цены закрытия и средней цены на акции Apple Inc (тикер AAPL) за период с 25.11.2024 по 25.12.2024 (т.е. 1 месяц - 1mo). ![AAPL_1mo_stock_price_chart_eg.png](https://github.com/MVerseau/History_Stock_Visualizer/blob/9d08b42ac6bb2957f846470f38e1eb4762081703/AAPL_1mo_stock_price_chart_eg.png))
 
 
