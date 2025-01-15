@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+from datetime import datetime, date
+
 
 
 class PlotIndicator:
@@ -128,6 +130,8 @@ def create_and_save_price(data, ticker, period, filename=None):
     plt.legend()
 
     if filename is None:
+        if len(period) > 1:
+            period = '_'.join([datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values()])
         filename = f"{ticker}_{period}_stock_price_chart.png"
 
     plt.savefig(filename)

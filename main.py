@@ -16,13 +16,17 @@ def main():
     print(
         "Общие периоды времени для данных включают: 1д, 5д, 1мес, 3мес, 6мес, 1г, 2г, 5г, 10л, с начала года, макс.\n Но в можете выбрать свой период.")
     print("Индикаторы финансового рынка включают (можно указать один или несколько): ")
+    # Выборка доступных индикаторов
     print(textwrap.fill(
         f'{', '.join([fun[0].upper() for fun in inspect.getmembers(da.Indicator, predicate=inspect.isfunction) if '_' not in fun[0]])}',
         150))
     print()
 
     ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc):»")
-    period = input("Введите период для данных (например, '1mo' для одного месяца или начальную дату периода в виде 'дд.мм.гггг'): ")
+    period = input(
+        "Введите период для данных (например, '1mo' для одного месяца или начальную дату периода в виде 'дд.мм.гггг'): ")
+    period = dd.set_period(period)
+    print(f'from main {period=}')
     fluctuation = float(input('Введите процент изменения цены для определения высокой волатильности: '))
     tech_indicators = input(
         'Нужно ли посчитать какие-либо индикаторы (перечислите)? Если нет, то ничего не вводите. ')
@@ -50,10 +54,10 @@ def main():
 
     # Export data to .csv file.
     if export.lower() in 'lд':
-        filename = f'{ticker}_{period}_stock_price_{date.today()}.csv'.replace('-', '_')
+        print(period)
         if len(da.Indicator._instances) != 0:
             stock_data = stock_data.join([v for v in indcs.indicators.values()], how='inner')
-        da.export_data_to_csv(stock_data, filename)
+        da.export_data_to_csv(stock_data, period, ticker)
 
     # Plot the data
     if len(da.Indicator._instances) != 0:

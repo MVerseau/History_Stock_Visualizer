@@ -1,6 +1,8 @@
 import pandas_ta as pta
 import inspect
+from datetime import datetime, date
 
+# Класс Индикатор "собирает" функции по расчёту каждого индикатора в отдельности
 class Indicator:
     _instances = []
 
@@ -50,7 +52,10 @@ class Indicator:
         print(f'Для рассчёта {indicator} необходимо указать больший период. {indicator} не будет рассчитан.')
 
 
-def export_data_to_csv(data, filename):
+def export_data_to_csv(data, period, ticker):
+    if len(period) > 1:
+        period = '_'.join([datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values()])
+    filename = f'{ticker}_{period}_stock_price_{date.today()}.csv'.replace('-', '_')
     with open(filename, 'w', encoding='utf-8') as f:
         data.to_csv(f, sep=';')
     print(f"Данные сохранены в {filename}")
