@@ -100,7 +100,9 @@ def create_and_save_plot(data, ticker, period, filename=None):
             # Sticking the plots
             plt.tight_layout()
             # plt.show()
-
+            
+            if len(period) > 1:
+                period = '_'.join([datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values()])
             filename = f"{ticker}_{period}_stock_price_{k}_chart.png"
 
             plt.savefig(filename)
