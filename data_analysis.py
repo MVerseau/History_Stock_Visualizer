@@ -2,6 +2,7 @@ import pandas_ta as pta
 import inspect
 from datetime import datetime, date
 
+
 # Класс Индикатор "собирает" функции по расчёту каждого индикатора в отдельности
 class Indicator:
     _instances = []
@@ -10,7 +11,7 @@ class Indicator:
         self._instances.append(self)
         self.data = data
         self._indicators = self.verify_indr(tech_indicators)
-        # self.indicators = dict()
+
 
     def verify_indr(self, tech_indicators):
         for indr in tech_indicators:
@@ -53,9 +54,10 @@ class Indicator:
 
 
 def export_data_to_csv(data, period, ticker):
-    if len(period) > 1:
-        period = '_'.join([datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values()])
-    filename = f'{ticker}_{period}_stock_price_{date.today()}.csv'.replace('-', '_')
+    if not period['start'] is None:
+        period['period'] = '_'.join(
+            [datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values() if isinstance(d, datetime)])
+    filename = f'{ticker}_{period['period']}_stock_price_{date.today()}.csv'.replace('-', '_')
     with open(filename, 'w', encoding='utf-8') as f:
         data.to_csv(f, sep=';')
     print(f"Данные сохранены в {filename}")

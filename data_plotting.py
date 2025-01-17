@@ -3,7 +3,6 @@ import pandas as pd
 from datetime import datetime, date
 
 
-
 class PlotIndicator:
     @staticmethod
     def rsi(indicator_data, ax2):
@@ -100,10 +99,11 @@ def create_and_save_plot(data, ticker, period, filename=None):
             # Sticking the plots
             plt.tight_layout()
             # plt.show()
-            
-            if len(period) > 1:
-                period = '_'.join([datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values()])
-            filename = f"{ticker}_{period}_stock_price_{k}_chart.png"
+
+            if not period['start'] is None:
+                period['period'] = '_'.join(
+                    [datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values() if isinstance(d, datetime)])
+            filename = f"{ticker}_{period['period']}_stock_price_{k}_chart.png"
 
             plt.savefig(filename)
             print(f"График сохранен как {filename}")
@@ -132,9 +132,10 @@ def create_and_save_price(data, ticker, period, filename=None):
     plt.legend()
 
     if filename is None:
-        if len(period) > 1:
-            period = '_'.join([datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values()])
-        filename = f"{ticker}_{period}_stock_price_chart.png"
+        if not period['start'] is None:
+            period['period'] = '_'.join(
+                [datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values() if isinstance(d, datetime)])
+        filename = f"{ticker.upper()}_{period['period']}_stock_price_chart.png"
 
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
