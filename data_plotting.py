@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.style
 import pandas as pd
 from datetime import datetime, date
 
@@ -60,12 +61,25 @@ class PlotIndicator:
         return ax2
 
 
+def diag_style():
+    print("Доступные стили графиков:")
+    styles = [s for s in matplotlib.style.available]
+    for s in styles:
+        print(f'{styles.index(s) + 1}. {s};')
+    chosen_style_number = int(input('Выберите стиль графика (укажите номер): ')) - 1
+    chosen_style = styles[chosen_style_number]
+    return chosen_style
+
+
 def create_and_save_plot(data, ticker, period, filename=None):
+
     if len(data) == 1:
         create_and_save_price(data[0], ticker, period, filename)
     else:
         for k, v in data[1].items():
             # ----------------------Historical Price Plot ---------------
+            style_to_use = diag_style()
+            plt.style.use(style_to_use)
             fig = plt.figure(figsize=(20, 6))
             gs = fig.add_gridspec(4, hspace=0)
             ax1 = plt.subplot(gs[0:3, :])
@@ -110,6 +124,8 @@ def create_and_save_plot(data, ticker, period, filename=None):
 
 
 def create_and_save_price(data, ticker, period, filename=None):
+    style_to_use = diag_style()
+    plt.style.use(style_to_use)
     plt.figure(figsize=(20, 6))
 
     if 'Date' not in data:
@@ -126,7 +142,7 @@ def create_and_save_price(data, ticker, period, filename=None):
         plt.plot(data['Date'], data['Close'], label='Close Price')
         plt.plot(data['Date'], data['Moving_Average'], label='Moving Average')
 
-    plt.title(f"{ticker} Цена акций с течением времени")
+    plt.title(f"{ticker.upper()} Цена акций с течением времени")
     plt.xlabel("Дата")
     plt.ylabel("Цена")
     plt.legend()
@@ -136,6 +152,6 @@ def create_and_save_price(data, ticker, period, filename=None):
             period['period'] = '_'.join(
                 [datetime.strftime(datetime.date(d), '%d%m%Y') for d in period.values() if isinstance(d, datetime)])
         filename = f"{ticker.upper()}_{period['period']}_stock_price_chart.png"
-
+    
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
