@@ -60,6 +60,26 @@ class PlotIndicator:
 
         return ax2
 
+    @staticmethod
+    def standard_deviation(indicator_data, ax2):
+        if 'Date' not in indicator_data:
+            if pd.api.types.is_datetime64_any_dtype(indicator_data.index):
+                dates = indicator_data.index.to_numpy()
+                ax2.plot(dates, indicator_data.values, label=indicator_data.name.upper())
+
+            else:
+                print("Информация о дате отсутствует или не имеет распознаваемого формата.")
+                return
+        else:
+            if not pd.api.types.is_datetime64_any_dtype(indicator_data['Date']):
+                indicator_data['Date'] = pd.to_datetime(indicator_data['Date'])
+            ax2.plot(indicator_data['Date'], indicator_data.name,
+                     label=indicator_data.name.upper())
+
+        ax2.set(xlabel="Дата", ylabel="Значение")
+        ax2.legend()
+
+        return ax2
 
 def diag_style():
     print("Доступные стили графиков:")

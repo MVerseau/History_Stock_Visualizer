@@ -1,6 +1,7 @@
 import pandas_ta as pta
 import inspect
 from datetime import datetime, date
+import pandas as pd
 
 
 # Класс Индикатор "собирает" функции по расчёту каждого индикатора в отдельности
@@ -10,12 +11,12 @@ class Indicator:
     def __init__(self, tech_indicators, data):
         self._instances.append(self)
         self.data = data
-        self._indicators = self.verify_indr(tech_indicators)
+        self._indicators = self._verify_indr(tech_indicators)
 
-
-    def verify_indr(self, tech_indicators):
+    def _verify_indr(self, tech_indicators):
         for indr in tech_indicators:
-            if indr.lower() in [fun[0] for fun in inspect.getmembers(Indicator, predicate=inspect.isfunction)]:
+            indr = indr.lower().replace(' ', '_')
+            if indr in [fun[0] for fun in inspect.getmembers(Indicator, predicate=inspect.isfunction)]:
                 func_name = getattr(self, indr)
                 if not hasattr(self, 'indicators'):
                     self.indicators = dict()
@@ -25,32 +26,39 @@ class Indicator:
             else:
                 indr = [input(
                     f'Индекса "{indr.upper()}" нет. Возможно, Вы допустили опечатку. Введите корректное название или нажмите "Ввод", чтобы пропустить: ')]
-                self.verify_indr(indr)
+                if len(indr) > 0:
+                    self._verify_indr(indr)
 
     '''
     При последующей постепенной реализации других индикаторов они автоматически будут появлятся в списке доступных индикаторов.
     def ao(self, data) -> pta.Series:
         ao = pta.ao(close=data['Close'])
         if not type(ao) == pta.Series:
-            self.non_valid_results('AO')
+            self._non_valid_results('AO')
         return ao
     '''
 
     def macd(self, data) -> pta.DataFrame:
         macd = pta.macd(close=data['Close'])
         if not type(macd) == pta.DataFrame:
-            self.non_valid_results('MACD')
+            self._non_valid_results('MACD')
         return macd
 
     def rsi(self, data) -> pta.Series:
         rsi = pta.rsi(close=data['Close'])  # Оставила период по умолчанию (14 дней)
         if not type(rsi) == pta.Series:
-            self.non_valid_results('RSI')
+            self._non_valid_results('RSI')
         return rsi
 
-    @staticmethod
-    def non_valid_results(indicator):
-        print(f'Для рассчёта {indicator} необходимо указать больший период. {indicator} не будет рассчитан.')
+    def standard_deviation(self, data) -> pd.Series:
+        standart_deviation = pta.stdev(data['Close'])
+        if not type(standart_deviation) == pd.Series:
+            self._non_valid_results('Standard Deviation of Close Price')
+        return standart_deviation
+
+    def _non_valid_results(self, indicator):
+        print(f'Для рассчёта {indicator} недостаточно данных. {indicator} не будет рассчитан.')
+        return
 
 
 def export_data_to_csv(data, period, ticker):
