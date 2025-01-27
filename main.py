@@ -2,9 +2,8 @@ import textwrap
 import types
 
 import data_download as dd
-import data_plotting as dplt
+# import data_plotting as dplt
 import data_plotting_with_plotly as px
-# import test as dplt
 from datetime import date
 import data_analysis as da
 
