@@ -70,16 +70,19 @@ def tech_indicators_list() -> tuple:
     # Запрос индикаторов
     tech_indicators_input = input(
         'Нужно ли посчитать какие-либо индикаторы (перечислите, указав порядковый номер)? Если нет, то ничего не вводите. ')
-
-    # Обработка строки
-    tech_indicators_input = tech_indicators_input.strip().replace(' ', ',').replace(',,', ',').split(',')
-
-    # Компановка в список, отсечение повторов, передача в нужном формате
     tech_indicators = []
-    for k in tech_indicators_input:
-        tech_indicators.append(indicators_dict[int(k) - 1].lower())
 
-    tech_indicators = tuple(set(tech_indicators))
+    if len(tech_indicators_input) != 0:
+        # Обработка строки
+        tech_indicators_input = tech_indicators_input.strip().replace(' ', ',').replace(',,', ',').split(',')
+
+        # Компановка в список, отсечение повторов, передача в нужном формате
+
+
+        for k in tech_indicators_input:
+            tech_indicators.append(indicators_dict[int(k) - 1].lower())
+
+        tech_indicators = tuple(set(tech_indicators))
 
     return tech_indicators
 

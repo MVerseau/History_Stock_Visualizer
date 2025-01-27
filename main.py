@@ -3,6 +3,7 @@ import types
 
 import data_download as dd
 import data_plotting as dplt
+import data_plotting_with_plotly as px
 # import test as dplt
 from datetime import date
 import data_analysis as da
@@ -40,7 +41,7 @@ def main():
         stock_data = (stock_data, indcs.indicators)
     else:
         stock_data = (stock_data,)
-    dplt.create_and_save_plot(stock_data, ticker, period)
+    px.create_and_save_plot(stock_data, ticker)
 
 
 if __name__ == "__main__":
